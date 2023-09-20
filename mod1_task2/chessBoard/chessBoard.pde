@@ -18,12 +18,23 @@ void setup() {
   
   myBoard = new board();
   pieceSizeDict = new FloatDict();
-  pieceSizeDict.set("p", 0.5);
-  pieceSizeDict.set("N", 0.7);
-  pieceSizeDict.set("B", 0.7);
-  pieceSizeDict.set("R", 0.8);
-  pieceSizeDict.set("Q", 0.9);
-  pieceSizeDict.set("K", 1.0);
+  
+  if (height > 500 && width > 500) {
+    pieceSizeDict.set("p", 0.5);
+    pieceSizeDict.set("N", 0.7);
+    pieceSizeDict.set("B", 0.7);
+    pieceSizeDict.set("R", 0.8);
+    pieceSizeDict.set("Q", 0.9);
+    pieceSizeDict.set("K", 1.0);
+  }
+  else {
+    pieceSizeDict.set("p", 0.75);
+    pieceSizeDict.set("N", 0.85);
+    pieceSizeDict.set("B", 0.85);
+    pieceSizeDict.set("R", 0.85);
+    pieceSizeDict.set("Q", 0.95);
+    pieceSizeDict.set("K", 1.0);
+  }
   
   colDict = new IntDict();
   colDict.set("a", 0);
