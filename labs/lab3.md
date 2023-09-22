@@ -23,4 +23,4 @@ Step 5: Creating circuit with joystick -> Led (using joystick as button)
 <h2>See pictures of circuits below:</h2>
 
 <h2>Next steps (not reached in lab period):</h2>
-* Connect circutit to GPIO to allow program to read input from different components (button, switch, joystick). 
+* Connect circuit to GPIO to allow program to read input from different components (button, switch, joystick). 
