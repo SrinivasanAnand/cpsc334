@@ -1,3 +1,5 @@
+<h1>Generative Art</h1>
+
 Link to video: https://youtu.be/oqQe_3LBvek
 
 This generative art program provides a way of visualizing patterns and geometry of a game of chess. 
@@ -17,4 +19,6 @@ always picked such that a full square board can fit within the screen.
 Another detail influenced by the dimension of the screen is the size of the pieces. Regardless of the size of the screen,
 the pieces are displayed from smallest to biggest as following: pawn, knight & bishop, rook, queen, king. For smaller screens,
 the relative size of the pieces increases across the board, such that the pieces don’t get so small that they get lost in the canvas.
+
+Note: runninig on Boot is accomplished through a .desktop file in ~/.config/autostart.
 
