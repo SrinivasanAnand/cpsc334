@@ -46,7 +46,7 @@ void setup() {
   ellipseMode(RADIUS);
   rectMode(CORNERS);
   
-  myPort = new Serial(this, Serial.list()[10], 9600);
+  myPort = new Serial(this, Serial.list()[2], 9600);
   
   ball_pos = new PVector(edgex+r, edgey+r);
   ball_pos_last = ball_pos;
@@ -153,5 +153,4 @@ void draw() {
   updateScore();
   displayScore();
   
-  println(ball_vel.mag());
 }
