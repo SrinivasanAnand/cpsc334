@@ -123,28 +123,7 @@ void draw() {
     }
   }
   
-  if (switch_button) {
-    if (button) {
-      charges[0] = false;
-      charges[1] = true;
-    }
-    else {
-      charges[0] = false;
-      charges[1] = false;
-    }
-    move_joystick(myBar2);
-  }
-  else {
-    if (button) {
-      charges[0] = true;
-      charges[1] = false;
-    }
-    else {
-      charges[0] = false;
-      charges[1] = false;
-    }
-    move_joystick(myBar);
-  }
+  move_joystick(myBar, myBar2);
 
   
   fill(255);
@@ -152,5 +131,5 @@ void draw() {
   updateScore();
   displayScore();
   
-  println(ball_vel.mag());
+  //println(ball_vel.mag());
 }
