@@ -147,7 +147,6 @@ void draw() {
   }
 
   
-  
   fill(255);
   updateBoardReflection(edgex, edgey, goal_length);
   updateScore();
