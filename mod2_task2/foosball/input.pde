@@ -1,7 +1,8 @@
 
-void move_joystick(bar b, bar b2) {
+void get_input(bar b, bar b2) {
+  // gets input from ESP32 via serial
+  
   int lf = 10;
-  // Expand array size to the number of bytes you expect:
   
   while (myPort.available() > 0){
     byte[] inBuffer = new byte[50];
@@ -16,7 +17,6 @@ void move_joystick(bar b, bar b2) {
     
     if (flag == true) {
       String input = new String(inBuffer);
-      print(input);
       
       String y_val_string = "";
       int y_val_len = 0;
@@ -34,9 +34,6 @@ void move_joystick(bar b, bar b2) {
       int y_val = int(y_val_string);
       int switch_val = int(input.charAt(y_val_len + 1)) - 48;
       int button_val = int(input.charAt(y_val_len + 3)) - 48;
-
-      println(switch_val);
-      println(button_val);
       
       float zeroed_y_val = y_val - 2043;
       float my_move;
