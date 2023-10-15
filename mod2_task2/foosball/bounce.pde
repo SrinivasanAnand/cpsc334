@@ -140,7 +140,7 @@ void innerBounce(int x1, float y1, int x2, float y2, boolean charged){
 }
 
 void addCharge(boolean charged) {
-  if (charged && ball_vel.mag() < 10) {
+  if (charged && ball_vel.mag() < speed + 5) {
     ball_vel.x += charge_add * ball_vel.x;
     ball_vel.y += charge_add * ball_vel.y;
   }

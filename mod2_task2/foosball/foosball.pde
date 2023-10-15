@@ -142,5 +142,5 @@ void draw() {
   displayScore();
   checkEnd(my_box_color, opp_box_color);
   
-  print(ball_vel.mag());
+  println(ball_vel.mag());
 }

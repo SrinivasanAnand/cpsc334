@@ -4,7 +4,7 @@ void updateBallPos(){
   ball_pos_last.x = ball_pos.copy().x;
   ball_pos_last.y = ball_pos.copy().y;
   ball_pos.add(ball_vel);
-  if (ball_vel.mag() > speed){
+  if (ball_vel.mag() > speed + friction){
     ball_vel.x = ball_vel.x - friction;
     ball_vel.y = ball_vel.y - friction;
   }
