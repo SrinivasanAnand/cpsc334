@@ -1,7 +1,7 @@
 public class bar {
   // vertical foos bar with display, bounce, and move functionality
   // takes x position of bar, width and height of boxes on bar
-  // number of boxes, spacing of boxes, bar color, box color, and an 
+  // number of boxes, spacing of boxer, bar color, box color, and an 
   // offset index which is used for implementing move functionality
   
   int bar_x, box_x, box_y, spacing, num_boxes;
@@ -32,7 +32,6 @@ public class bar {
     this.offset_index = offset_index;
     
     this.displayBar();
-    this.updateBounce();
   }
   
   void displayBar() {
@@ -48,7 +47,7 @@ public class bar {
     
     fill(this.box_color);
     if (charged) {
-      stroke(255, 234, 0);
+      stroke(255);
     }
     rect(this.x_center + this.half_x, this.box_1_y_center + this.half_y + this.y_offset,
     this.x_center - this.half_x, this.box_1_y_center - this.half_y + this.y_offset);
@@ -80,8 +79,7 @@ public class bar {
   }
   
   void move(float x, float speed) {
-    // moves bar vertically up or down 'x' times 'speed' units
-    
+    // moves bar vertically up or down x times speed units
     y_offsets[this.offset_index] += x * speed;
     if (y_offsets[this.offset_index] > this.spacing) {
       y_offsets[this.offset_index] = this.spacing;
@@ -89,7 +87,6 @@ public class bar {
     else if (y_offsets[this.offset_index] < -this.spacing) {
      y_offsets[this.offset_index] = -this.spacing; 
     }
-
     
   }
   
