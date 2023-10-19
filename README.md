@@ -1,2 +1,2 @@
 # cpsc334
-Cpsc 334 modules
+Cpsc 334 labs and modules
