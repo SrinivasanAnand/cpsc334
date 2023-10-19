@@ -9,7 +9,7 @@ switch for control over the virtual rods. A button which virtually “charges”
 in the ball increasing its velocity when making contact with this rod. This behavior is meant to mimic the feeling of spinning a
 foosball rod to give the ball a high speed.
 
-The work aims to adapt the game of foosball to a virtual setting in order to achieve a similar tactile and emotional feeling.
+Overall, the work aims to adapt the game of foosball to a virtual setting in order to achieve a similar tactile and emotional feeling.
 A virtual version of foosball allows for greater portability and allows for a single person to play and enjoy a game similar
 to foosball (which might prove useful when friends are busy). Moreover, the game could easily be adapted to include a multiplayer
 mode simply by building a second controller and making minimal changes to the codebase.
