@@ -15,6 +15,6 @@ to foosball (which might prove useful when friends are busy). Moreover, the game
 mode simply by building a second controller and making minimal changes to the codebase.
 
 The game is played using a controller with a joystick, a switch, and a button. The mechanics of the gameplay are as follows:
-- The **switch** chooses which rod is selected. If the switch points leftwards, the leftmost rod is selected. If the switch points rightwards, the rightmost rod is selected.
+- The **switch** chooses which rod is selected. If the switch points leftwards, the leftmost (blue) player rod is selected. If the switch points rightwards, the rightmost (blue) player rod is selected.
 - The **joystick** is used to control the position of the rod that is selected. That is, moving the joystick up or down moves the rod upwards or downwards as appropriate.
 - Pressing the **button** “charges” whichever rod is selected. A charged rod has a thin yellow outline and when charged, a rod increases the ball's velocity if it makes contact with it.
