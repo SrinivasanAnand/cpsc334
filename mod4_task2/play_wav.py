@@ -11,21 +11,21 @@ p = pyaudio.PyAudio()
 ser = serial.Serial('/dev/tty.usbserial-10')
 
 
-button = False
-switch = False
+button_val = False
+switch_val = False
 break_sig = False
 playback = False
-def get_button_input():
-    global button
-    global switch
+def get_keyboard_input():
+    global button_val
+    global switch_val
     global playback
     global break_sig
     while(True):
         button_input = input("")
         if (button_input == "p"):
-            button = True
+            button_val = True
         elif (button_input == "s"):
-            switch = not switch
+            switch_val = not switch_val
             playback = False
         elif (button_input == "r"):
             playback = True
@@ -33,9 +33,51 @@ def get_button_input():
             break_sig = True
             return
         else:
-            button = False
+            button_val = False
 
-t1 = threading.Thread(target = get_button_input)
+#t1 = threading.Thread(target = get_keyboard_input)
+#t1.start()
+
+pos = -1
+button = False
+switch = False
+
+def read_serial_input(ser):
+    global pos
+    global button
+    global switch
+
+    while(True):
+        line = ser.readline()
+        line_pos = 13
+        string_pos = ""
+        while(line_pos < len(line)):
+            if line[line_pos] == 124:
+                break
+            else:
+                string_pos += chr(line[line_pos])
+            line_pos = line_pos + 1
+        
+        try:
+            pos = int(string_pos)
+            button_int = int(chr(line[line_pos + 1]))
+            if (button_int == 0):
+                button = False
+            else:
+                button = True
+            switch_int = int(chr(line[line_pos + 3]))
+            if (switch_int == 0):
+                switch = False
+            else:
+                switch = True
+        except:
+            print("Error in converting read pos to string for pos: " + string_pos)
+            pos = -1
+            button = False
+            switch = False
+            #return -1, -1, -1
+
+t1 = threading.Thread(target = read_serial_input, args=[ser])
 t1.start()
 
 chunk = 1024
@@ -73,28 +115,57 @@ recording_len = 0
 recording_duration = 8
 total_frames = int(recording_duration * framerate)
 n_chunks = total_frames // chunk
+print(n_chunks)
 
-def playback():    
+def playback():
+    global recording
+    global playback
+    global switch
+    playback = False    
     while(playback and switch):
+        print("starting playback")
         for i in range(len(recording)):
             playback_stream.write(recording[i])
 
 
-recording_thread = threading.Thread(target=playback)
-recording_thread.start()
+#recording_thread = threading.Thread(target=playback)
+#recording_thread.start()
+
+rewind = []
+playback_mode = False
+playback_pos = 0
+
 started = False
+detected_switch = False
+data_null = True
+count = 0
 
 while(True):
     
-    # maybe do this in a thread
-    (pos, button_val, switch_val) = read_serial_input(ser)
-    #print(button_val)
+    #print(pos)
     note = get_note_from_pos(pos)
     data = b'\x00\x00' * chunk
 
     # if (note == -1):
     #     print("continuing")
     #     continue
+
+    if (switch):
+        detected_switch = True
+        continue
+    if ((not switch) and detected_switch):
+        print("Rewinding...")
+        detected_switch = False
+        playback_mode = True
+        continue
+    if (playback_mode):
+        if (playback_pos < len(rewind)):
+            playback_stream.write(rewind[playback_pos])
+            playback_pos += 1
+        else:
+            playback_mode = False
+            playback_pos = 0
+        continue  
 
     if (button and (not playing_note) and (not reached_end)):
         not_initialized = True
@@ -118,6 +189,14 @@ while(True):
     
     if (button and playing_note and (not reached_end)):
         data = wf.readframes(chunk)
+        
+        if (len(rewind) < n_chunks):
+            rewind.append(data)
+        else:
+            rewind.pop(0)
+            rewind.append(data)
+        data_null = False
+
         stream.write(data)
         if (wf.tell() >= frame_end):
             playing_note = False
@@ -129,10 +208,25 @@ while(True):
         # for i in range(len(recording)):
         #     playback_stream.write(recording[i])
     
-    if (switch):
-        if (recording_len < n_chunks):
-            recording.append(data)
-            recording_len += 1
+    if (data_null):
+        if (len(rewind) < n_chunks):
+            rewind.append(data)
+        else:
+            rewind.pop(0)
+            rewind.append(data)
+
+    
+    
+    count = (count + 1) % 20
+    # if (switch):
+        
+    #     if (recording_len < n_chunks):
+    #         print("switch is on")
+    #         recording.append(data)
+    #         recording_len += 1
+    #     else:
+    #         playback = True
+    #         ("playback set to true and switch is on")
 
     if (break_sig):
         break
