@@ -5,8 +5,41 @@ import serial
 import threading
 #import numpy as np
 from lib import *
+#from scipy.io.wavfile import write
 
-wf = wave.open("/Users/anandsrinivasan/cpsc334/mod4_task2/classic_electric_piano_chromatic.wav", 'rb')
+invalid_input = True
+piano_index = -1
+octave_index = -1
+while (invalid_input):
+    print("What would you like to play?")
+    print("1: Electric piano")
+    print("2: Suitcase piano")
+    piano_index = int(input("Enter your choice: ")) - 1
+
+    if (piano_index != 0 and piano_index != 1):
+        print("Please enter valid input")
+    else:
+        break
+
+invalid_input = True
+while (invalid_input):
+    print("How are you feeling today?")
+    print("1: Happy")
+    print("2: Sad")
+    octave_index = int(input("Enter your choice: ")) - 1
+
+    if (octave_index != 0 and octave_index != 1):
+        print("Please enter valid input")
+    else:
+        break
+
+octaves = ["cmajor", "cminor"]
+octave = octaves[octave_index]
+if (piano_index == 1):
+    octave = octave + "_suitcase"
+
+filename = f"/Users/anandsrinivasan/cpsc334/mod4_task2/{octave}.wav"
+wf = wave.open(filename, 'rb')
 p = pyaudio.PyAudio()
 ser = serial.Serial('/dev/tty.usbserial-10')
 
@@ -71,17 +104,17 @@ def read_serial_input(ser):
             else:
                 switch = True
         except:
-            print("Error in converting read pos to string for pos: " + string_pos)
+            #print("Error in converting read pos to string for pos: " + string_pos)
             pos = -1
             button = False
             switch = False
-            #return -1, -1, -1
 
 t1 = threading.Thread(target = read_serial_input, args=[ser])
 t1.start()
 
 chunk = 1024
 framerate = wf.getframerate()
+sample_format = pyaudio.paInt16
 
 stream = p.open(format =
                 p.get_format_from_width(wf.getsampwidth()),
@@ -112,10 +145,9 @@ play_pos = 0
 
 recording = []
 recording_len = 0
-recording_duration = 8
+recording_duration = 20
 total_frames = int(recording_duration * framerate)
 n_chunks = total_frames // chunk
-print(n_chunks)
 
 def playback():
     global recording
@@ -139,32 +171,40 @@ started = False
 detected_switch = False
 data_null = True
 count = 0
+null_count = 0
 
 while(True):
     
     #print(pos)
     note = get_note_from_pos(pos)
     data = b'\x00\x00' * chunk
-
-    # if (note == -1):
-    #     print("continuing")
-    #     continue
+    data_null = True
 
     if (switch):
         detected_switch = True
         continue
     if ((not switch) and detected_switch):
         print("Rewinding...")
+
+        file = wave.open("recording.wav", 'wb')
+        file.setnchannels(2)
+        file.setsampwidth(p.get_sample_size(sample_format))
+        file.setframerate(framerate)
+        file.writeframes(b''.join(rewind))
+        file.close()
+
         detected_switch = False
         playback_mode = True
         continue
     if (playback_mode):
-        if (playback_pos < len(rewind)):
+        if (playback_pos < len(rewind)):    
+            #print("writing to playback")
             playback_stream.write(rewind[playback_pos])
             playback_pos += 1
         else:
             playback_mode = False
             playback_pos = 0
+        count = count + 1
         continue  
 
     if (button and (not playing_note) and (not reached_end)):
@@ -190,7 +230,7 @@ while(True):
     if (button and playing_note and (not reached_end)):
         data = wf.readframes(chunk)
         
-        if (len(rewind) < n_chunks):
+        if (len(rewind) < n_chunks + 1):
             rewind.append(data)
         else:
             rewind.pop(0)
@@ -208,16 +248,20 @@ while(True):
         # for i in range(len(recording)):
         #     playback_stream.write(recording[i])
     
-    if (data_null):
-        if (len(rewind) < n_chunks):
-            rewind.append(data)
+    if (null_count % 50000 == 0 and data_null):
+        if (len(rewind) < n_chunks + 5):
+            for i in range(1):
+                rewind.append(data)
         else:
-            rewind.pop(0)
-            rewind.append(data)
+            for i in range(1):
+                rewind.pop(0)
+                rewind.append(data)
+
+    null_count += 1
 
     
     
-    count = (count + 1) % 20
+    #count = count + 1
     # if (switch):
         
     #     if (recording_len < n_chunks):
