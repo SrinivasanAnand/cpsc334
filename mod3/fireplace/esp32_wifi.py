@@ -22,7 +22,7 @@ def init():
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1) #enable broadcasting mode
     sock.bind(('', localPort))
-    #print("UDP server : {}:{}".format(get_ip_address(),localPort))
+    print("UDP server : {}:{}".format(get_ip_address(),localPort))
 
 # function main 
 def main():
