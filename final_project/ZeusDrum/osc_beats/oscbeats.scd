@@ -33,6 +33,7 @@ s.waitForBoot {
 			OSCdef(\anyMessage, {|msg| msg.postln;
 				Synth(\playBuf, [\buffer, msg[1] ]); // take the incoming data and index into the buffer array
 			}, '\aMessage');
+			"received".postln;
 		)
 	}.value;
 }

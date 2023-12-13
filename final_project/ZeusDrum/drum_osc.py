@@ -4,7 +4,7 @@ from pythonosc import udp_client
 
 OFFSET = 48
 ONE = 49
-ser = serial.Serial('/dev/tty.usbserial-10')
+ser = serial.Serial('/dev/ttyUSB0')
 
 localPort=8888
 bufferSize=1024
@@ -50,8 +50,8 @@ def handle_piezo(reading, index):
     elif (on_list[index]):
         on_list[index] = False #reset if touch detected as Off
     elif (touch_detected):
-        print("detected touch:", index)
-        on_list[index] = True
+        print(index)
+        #on_list[index] = True
         client.send_message(address, [index])
 
 

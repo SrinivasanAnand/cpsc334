@@ -1,0 +1,5 @@
+detected touch: 2
+detected touch: 2
+detected touch: 2
+detected touch: 2
+detected touch: 1
