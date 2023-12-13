@@ -3,6 +3,9 @@ from pythonosc import osc_server
 import subprocess
 import pyaudio
 import wave
+from gpiozero import Button
+
+switch = Button(21)
 
 # Set the IP address and port for receiving OSC messages
 receiver_ip = "127.0.0.1"
@@ -44,10 +47,11 @@ def play_wav_with_aplay(file_path):
         print(f"Error: {e}")
 
 ghatam_file_prefix = "GhatamSample"
+prefix_list = [ghatam_file_prefix]
 # Create a dispatcher to handle incoming OSC messages
 def handler(address, *args):
     print(f"Received OSC message from {address}: {args}")
-    sound_file = ghatam_file_prefix + str(args[0] + 1) + ".wav"
+    sound_file = prefix_list[args[1]] + str(args[0] + 1) + ".wav"
     play_wav_with_aplay(sound_file)
 
 dispatcher_instance = dispatcher.Dispatcher()

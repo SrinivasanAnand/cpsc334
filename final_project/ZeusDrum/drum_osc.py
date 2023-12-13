@@ -1,6 +1,9 @@
 import serial
 import socket
 from pythonosc import udp_client
+from gpiozero import Button
+
+switch = Button(21)
 
 OFFSET = 48
 ONE = 49
@@ -42,7 +45,7 @@ on_list = []
 for i in range(NUM_SENSORS):
     on_list.append(False)
 
-def handle_piezo(reading, index):
+def handle_piezo(reading, index, instrument):
     signal_check = 1 << index
     touch_detected = reading & signal_check > 0
     if (touch_detected and on_list[index]):
@@ -52,17 +55,23 @@ def handle_piezo(reading, index):
     elif (touch_detected):
         print(index)
         #on_list[index] = True
-        client.send_message(address, [index])
+        client.send_message(address, [index, instrument])
 
 
-
+last_state = switch.is_pressed
+instrument = 0
+num_instruments = 4
 while True:
     line = ser.readline()
+    if(switch.is_pressed != last_state):
+        instrument = (instrument + 1) % num_instruments
+        last_state = switch.is_pressed
+
     #line, addr = sock.recvfrom(1024)
     reading = int(line[0]) - OFFSET
 
     for i in range(NUM_SENSORS):
-        handle_piezo(reading, i)
+        handle_piezo(reading, i, instrument)
     
 
 
