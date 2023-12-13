@@ -47,7 +47,7 @@ def play_wav_with_aplay(file_path):
         print(f"Error: {e}")
 
 ghatam_file_prefix = "GhatamSample"
-prefix_list = [ghatam_file_prefix]
+prefix_list = ["GhatamSample", "K1close", "Kurz", "Kitchen", "Symbols"]
 # Create a dispatcher to handle incoming OSC messages
 def handler(address, *args):
     print(f"Received OSC message from {address}: {args}")

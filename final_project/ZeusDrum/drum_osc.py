@@ -39,7 +39,7 @@ address = '/aMessage'
 
 count = 0
 
-NUM_SENSORS = 3
+NUM_SENSORS = 4
 
 on_list = []
 for i in range(NUM_SENSORS):
@@ -60,7 +60,7 @@ def handle_piezo(reading, index, instrument):
 
 last_state = switch.is_pressed
 instrument = 0
-num_instruments = 4
+num_instruments = 5
 while True:
     line = ser.readline()
     if(switch.is_pressed != last_state):
