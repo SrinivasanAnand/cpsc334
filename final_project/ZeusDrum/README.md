@@ -8,6 +8,6 @@ The switch allows the user to select a new kit!
 The version of Electronic Mridangam presented at the final showcase includes
 four pre-loaded kits, but the system’s design also allows for easy expansion —
 new drum kits can be added by adding the four desired sounds to the audio folder
-and adding a single line of code. In this way, Electronic Mridangam exposes almost
+and updating a single line of code. In this way, Electronic Mridangam exposes almost
 infinite possibility to the musician, allowing them to experiment with a variety
 of their preferred sounds through mridangam-like musicality and play-style.
