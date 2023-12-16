@@ -1,7 +1,7 @@
 Link to video: https://www.youtube.com/watch?time_continue=1&v=Kpeiwq3pmhk&embeds_referring_euri=https%3A%2F%2Fwww.notion.so%2F&source_ve_path=MzY4NDIsMzY4NDIsMjM4NTE&feature=emb_title
 
 *Electronic Mridangam* is a mridangam-inspired electronic, customizable drum-kit.
-You can play the instrument by tapping or hitting the different gold touch sensors.
+The instrument is played by tapping or hitting the different gold touch sensors.
 Each sensor triggers one of four notes within a drum kit.
 The switch allows the user to select a new kit!
 
